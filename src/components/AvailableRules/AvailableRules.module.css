@@ -1,0 +1,21 @@
+.rulesList {
+    column-count: 3;
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    column-gap: 2em;
+    -webkit-column-gap: 2em;
+    -moz-column-gap: 2em;
+    font-size: 1rem;
+    line-height: 1.8em;
+}
+
+.ruleslistLink {
+    color: #eb4432;
+    text-decoration: underline;
+    word-break: break-word;
+    display: block;
+}
+
+.ruleslistLink:hover {
+    color: #eb4432;
+}

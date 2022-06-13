@@ -1,0 +1,392 @@
+---
+id: available-validation-rules
+title: Available Validation Rules
+sidebar_position: 5
+---
+
+import AvailableRules from '@site/src/components/AvailableRules';
+import Anchor from '@site/src/components/Anchor';
+
+<AvailableRules />
+
+
+<Anchor id="accepted">accepted</Anchor>
+The field under validation must be <code>"yes"</code>, <code>"on"</code>, <code>1</code>, or <code>true</code>. 
+This is useful for validating "Terms of Service" acceptance or similar fields.
+
+<Anchor id="accepted_if">accepted_if:anotherfield,value</Anchor>
+The field under validation must be <code>"yes"</code>, <code>"on"</code>, <code>1</code>, or <code>true</code> if 
+another field under validation is equal to a specified value. This is useful for validating "Terms of Service" 
+acceptance or similar fields.
+
+<Anchor id="after">after:<em>date</em></Anchor>
+The field under validation must be a value after a given date. The dates will be converted to a Javascript <code>Date</code> instance.
+
+```js
+    start_date: 'required|date|after:2021-12-11'
+```
+
+Instead of passing a date string, you may specify another field to compare against the date: 
+
+```js
+    finish_date: 'required|date|after:start_date'
+```
+
+<Anchor id="after_or_equal">after_or_equal:<em>date</em></Anchor>
+The field under validation must be a value after or equal to the given date. For more information, 
+see the <a href="#after">after</a> rule.
+
+<Anchor id="alpha">alpha</Anchor>
+The field under validation must be entirely alphabetic characters.
+
+<Anchor id="alpha_dash">alpha_dash</Anchor>
+The field under validation must have alpha-numeric characters, as well as dashes and underscores.
+
+<Anchor id="alpha_num">alpha_num</Anchor>
+The field under validation must be entirely alpha-numeric characters.
+
+<Anchor id="array">array</Anchor>
+The field under validation must be a Javascript <code>array</code>.
+
+<Anchor id="bail">bail</Anchor>
+Stop running validation rules for the field after the first validation failure.
+<br />
+<br />
+While the <code>bail</code> rule will only stop validating a specific field when it encounters a validation failure, 
+the <code>stopOnFirstFailure</code> method will inform the validator that it should stop validating all attributes once 
+a single validation failure has occurred.
+
+<br/> 
+<br/>
+
+```js
+    if (validator.stopOnFirstFailure().validate()) {
+        // ... 
+    }
+```
+
+<Anchor id="before">before:<em>date</em></Anchor>
+The field under validation must be a value preceding the given date. The dates will be converted to a Javascript <code>Date</code> instance.
+In addition, like the <a href="#after">after</a> rule, the name of another field under validation may be supplied as the value of <code>date</code>.
+
+<Anchor id="before_or_equal">before_or_equal:<em>date</em></Anchor>
+The field under validation must be a value preceding or equal the given date. The dates will be converted to a Javascript <code>Date</code> instance.
+In addition, like the <a href="#after">after</a> rule, the name of another field under validation may be supplied as the value of <code>date</code>.
+
+
+<Anchor id="between">between:<em>min,max</em></Anchor>
+The field under validation must have a size between the given <em>min</em> and <em>max</em>.
+Strings, numercis, arrays, and objects are evaluated in the same fashion as the <a href="#size">size</a> rule.
+
+<Anchor id="boolean">boolean</Anchor>
+The field under validation must be able to be cast as boolean. Accepted input are <code>true</code>, <code>false</code>, <code>1</code>, 
+&nbsp;<code>0</code>, <code>"1"</code>, <code>"0"</code>.
+
+If you want the attribute to be strictly a boolean, you can use the <code>boolean</code> rule in combination with the <a href="#strict">strict</a> rule.
+
+```js
+    value: 'strict|boolean'
+```
+
+<Anchor id="confirmed">confirmed</Anchor>
+The field under validation must have a matching field of <code>&#123;field&#125;_confirmation</code>. For example, if the field under 
+validation is <code>password</code>, a matching <code>password_confirmation</code> field must be present in the input.
+
+<Anchor id="date">date</Anchor>
+The field under validation must be a valid date. It can be either a <code>string</code> or an instance of <code>Date</code>.
+
+<Anchor id="date_equals">date_equals:<em>date</em></Anchor>
+The field under validation must be equal to the given date. The dates will be converted to a Javascript <code>Date</code> instance.
+
+<Anchor id="declined">declined</Anchor>
+The field under validation must be <code>"no"</code>, <code>"off"</code>, <code>0</code>, or <code>false</code>.
+
+<Anchor id="declined_if">declined_if:another_value,value</Anchor>
+The field under validation must be <code>"no"</code>, <code>"off"</code>, <code>0</code>, or <code>false</code> if another field under validation is equal to a specified value.
+
+<Anchor id="different">different:<em>field</em></Anchor>
+The field under validation must have a different value than <em>field</em>.
+
+<Anchor id="digits">digits:<em>value</em></Anchor>
+The field under validation must be <em>numeric</em> and must have an exact length of <em>value</em>.
+
+<Anchor id="digits_between">digits_between:<em>min,max</em></Anchor>
+The field under validation must be <em>numeric</em> and must have a length between the given <em>min</em> and <em>max</em>.
+
+<Anchor id="email">email</Anchor>
+The field under validation must be formatted as an email address.
+
+<Anchor id="ends_with">ends_with:<em>foo,bar</em></Anchor>
+The field under validation must end with one of the given values.
+
+<Anchor id="greater_than">gt:<em>field</em></Anchor>
+The field under validation must be greater than the given <em>field</em>. The two fields must be of the same type. 
+Strings, numerics, arrays, and files are evaluated using the same conventions as the <a href="#size">size</a> rule.
+
+<Anchor id="greater_than_or_equal">gte:<em>field</em></Anchor>
+The field under validation must be greater than or equal to the given <em>field</em>. The two fields must be of the same type.
+Strings, numerics, arrays, and files are evaluated using the same conventions as the <a href="#size">size</a> rule.
+
+<Anchor id="in">in:<em>foo,bar,...</em></Anchor>
+The field under validation must be included in the given list of values <br /> <br />
+
+```js
+    value: 'in:first,second'
+```
+
+Since this rule often requires you to <code>implode</code> and array, the <code>ruleIn</code> method may be used to fluently 
+construct the rule.
+
+```js
+    import { make, ruleIn } from 'simple-body-validator';
+```
+
+```js
+    const { make, ruleIn } = require('simple-body-validator');
+```
+
+``` js
+    const validator = make(data, {
+        zones: [
+            required,
+            ruleIn(['first-zone', 'second-zone']);
+        ]
+    });
+```
+
+When the <code>in</code> rule is combined with the <code>array</code> rule, each value in the input array must be present within
+the list of values provided to the <code>in</code> rule. In the following example, the <code>LAS</code> airport code in the input
+array is invalid since it is not contained in the list of airports provided to the <code>in</code> rule.
+
+```js
+    const { make, ruleIn } = require('simple-body-validator');
+
+    const data = {
+        airports: ['NYC', 'LIT']
+    };
+
+    const validator = make(data, {
+        airports: [
+            'required', 
+            'array',
+        ],
+        'airports.*': ruleIn(['NYC', 'LIT']),
+    })
+```
+<Anchor id="integer">integer</Anchor>
+The field under validation must be an integer. This validation rule does not verify that the input is of type <code>number</code>,
+so an integer in a <code>string</code> is also considered as a valid integer. If you need to validate the the input is being 
+sent as number, you can combine the <code>integer</code> rule with the <code>strict</code> rule. <br /> <br />
+
+```js
+    value: 'required|strict|integer'
+```
+
+<Anchor id="json">json</Anchor>
+
+The field under validation must be a valid JSON string.
+
+<Anchor id="less_than">lt:<em>field</em></Anchor>
+The field under validation must bess less tha the given <em>field</em>. The two fields must be of the same type.
+Strings, numerics, arrays, and files are evaluated using the same conventions as the <a href="#size">size</a> rule.
+
+<Anchor id="less_than_or_equal">lte:<em>field</em></Anchor>
+The field under validation must be less than or equal to the given <em>field</em>. The two fields must be of the same type.
+Strings, numerics, arrays, and files are evaluated using the same conventions as the <a href="#size">size</a> rule.
+
+<Anchor id="max">max:<em>value</em></Anchor>
+The field under validation must be less than or equal to a maximum <em>value</em>.
+Strings, numerics, arrays, and files are evaluated using the same conventions as the <a href="#size">size</a> rule.
+
+<Anchor id="min">min:<em>value</em></Anchor>
+The field under validation must be greater than or equal to a minimum <em>value</em>.
+Strings, numerics, arrays, and files are evaluated using the same conventions as the <a href="#size">size</a> rule.
+
+<Anchor id="not_in">not_in:<em>foo,bar,...</em></Anchor>
+The field under validation must not be included in the given list of values. <br /> <br />
+
+```js
+    value: 'not_in:foo,bar'
+```
+
+The <code>ruleNotIn</code> method may be used to fluently construct the rule.
+
+```js
+    const { make, ruleNotIn} = require('simple-body-validator');
+
+    const validator = make(data, {
+        toppings: [
+            'required',
+            ruleNotIn(['sprinkles', 'cherries']);
+        ],
+    });
+```
+
+<Anchor id="not_regex">not_regex</Anchor>
+The field under validation must not match the given regular expression. The <code>not_regex</code> rule can only be used through 
+the <code>notRegex</code> method. <br /> <br />
+
+```js
+    import { notRegex } from 'simple-body-validator'; 
+```
+
+```js
+    const { notRegex } = require('simple-body-validator');
+```
+
+The parameter passed to the <code>notRegex</code> method must be an instance of <code>RegExp</code>
+
+```js
+    const { make, notRegex } = require('simple-body-validator');
+
+    const validator = make()
+    .setData({
+        title: 'not Regex',
+    })
+    .setRules({
+        title: [
+            'required',
+            notRegex(/[0-9]/),
+            // or notRegex(new RegExp('[0-9]'))
+        ],
+    });
+```
+
+<Anchor id="nullable">nullable</Anchor>
+The field under validation may be <code>null</code>
+
+<Anchor id="numeric">numeric</Anchor>
+The field under validation must be numeric. This validation rule does not verify that the input is of type <code>number</code>,
+so a number in a <code>string</code> is also considered as numeric. If you need to validate the the input is of type <code>number</code>, 
+you can combine the <code>numeric</code> rule with the <code>strict</code> rule. <br /> <br />
+
+```js
+    value: 'required|strict|numeric'
+```
+
+<Anchor id="object">object</Anchor>
+The field under validation must be a valid Javascript <code>object</code>.
+
+<Anchor id="present">present</Anchor>
+
+The field under validation must be present in the input data but can be empty.
+
+<Anchor id="regex">regex</Anchor>
+The field under validation must match the given regular expression. The <code>regex</code> rule can only be used through 
+the <code>regex</code> method. <br /> <br />
+
+```js
+    import { regex } from 'simple-body-validator'; 
+```
+
+```js
+    const { regex } = require('simple-body-validator');
+```
+
+The parameter passed to the <code>notRegex</code> method must be an instance of <code>RegExp</code>
+
+```js
+    const { make, regex } = require('simple-body-validator');
+
+    const validator = make()
+    .setData({
+        title: 'Regex',
+    })
+    .setRules({
+        title: [
+            'required',
+            regex(/^[^\d]+$/),
+            // or regex(new RegExp('^[^\\d]+$'))
+        ],
+    });
+```
+
+<Anchor id="required">required</Anchor>
+The field under validation must be present in the input data and not empty. A field is considered <strong>empty </strong>
+if one of the following conditions are true: <br /> <br />
+
+- The value is <code>null</code> or the type of the value is <code>undefined</code>.
+- The value is an empty string.
+- The value is an empty array.
+- The value is an empty object.
+
+<Anchor id="required_if">required_if:<em>anotherfield,value,...</em></Anchor>
+The field under validation must be present and not empty if the <strong>other</strong> field is equal to <strong>any</strong> value.
+If you would to construct a more complex condition for the <code>required_if</code> rule, you may use the <code>requiredIf</code> method.
+<br /> <br />
+
+```js
+    import { requiredIf } from 'simple-body-validator';
+```
+
+```js
+    const { requiredIf }  = require('simple-body-validator');
+```
+
+This method accepts a booelan or a closure. When passed a closure, the closure should return <code>true</code> or <code>false</code>
+to indicate if the field under validation is required.
+
+```js
+    const { make, requiredIf }  = require('simple-body-validator');
+
+    validator = make(data, {
+        role_id: requiredIf(user.isAdmin()),
+    });
+
+    validator = make(data, {
+        role_id: requiredIf(() => user.isAdmin()),
+    });
+```
+
+<Anchor id="required_unless">required_unless:<em>anotherfield,value,...</em></Anchor>
+The field under validation must be present and not empty unless the <strong>other</strong> field is equal to <strong>any</strong> value.
+This also means that the other field must be present in the request data unless value is <code>null</code>. If <em>value </em> 
+is <code>null</code> (<code>required_unless:name,null</code>), the field under validation will be required unless the comparison 
+field is <code>null</code> or the comparison field is missing from the request data.
+
+<Anchor id="required_with">required_with:<em>foo,bar,...</em></Anchor>
+The field under validation must be present and not empty <em>only if any</em> of the other specified fields are present and not empty.
+
+<Anchor id="required_with_all">required_with_all:<em>foo,bar,...</em></Anchor>
+The field under validation must be present and not empty <em>only if all</em> of the other specified fields are present and not empty.
+
+<Anchor id="required_without">required_without:<em>foo,bar,...</em></Anchor>
+The field under validation must be present and not empty <em>only when any</em> of the other specified fields are empty or not present.
+
+<Anchor id="required_without_all">required_without_all:<em>foo,bar,...</em></Anchor>
+The field under validation must be present and not empty <em>only when all</em> of the other specified fields are empty or not present.
+
+<Anchor id="same">same:<em>field</em></Anchor>
+The given <em>field</em> must match the field under validation.
+
+<Anchor id="size">size:<em>value</em></Anchor>
+The field under validation must have a size matching the given <em>value</em>. For string data, <em>value</em> corresponds to the number 
+of characters. For numeric data, <em>value</em> corresponds to a given integer value (If the <code>number</code> is inside a string and you still
+want to consider it as number you must also add the <code>numeric</code> or <code>integer</code> rule). For an array, <em>size</em> corresponds
+to the <code>length</code> of the array. For an object, <em>size</em> corresponds to the <code>length</code> of the object keys. <br /> <br />
+
+```js
+
+// Validate that a string is exactly 12 characters long
+title: 'size:12';
+
+// Validate that a provided integer equals 10
+seats: 'integer|size:10';
+
+// Validate that an array has exactly 5 elements
+tags: 'array|size:5';
+
+// Validate than an object has exactly 5 elemnts
+zones: 'object|size:5';
+
+```
+
+<Anchor id="strats_with">starts_with:<em>foo,bar...</em></Anchor>
+The field under validation must start with one of the given values.
+
+<Anchor id="string">string</Anchor>
+The field under validation must be a string. If you would like the field to also be <code>null</code>, you should assign 
+the <code>nullable</code> rule to the field.
+
+<Anchor id="url">url</Anchor>
+The field udner validation must be a valid URL.
