@@ -13,8 +13,8 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'jadKhoury1', // Usually your GitHub org/user name.
+  projectName: 'simple-body-validator', // Usually your repo name.
 
   presets: [
     [
@@ -39,10 +39,6 @@ const config = {
       hideableSidebar: false,
       navbar: {
         title: 'Simple Body Validator',
-        logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
-        },
         items: [
           {
             type: 'doc',
@@ -51,7 +47,7 @@ const config = {
             label: 'Docs',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/jadKhoury1/simple-body-validator',
             label: 'GitHub',
             position: 'right',
           },
