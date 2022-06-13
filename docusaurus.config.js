@@ -8,11 +8,10 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Simple Body Validor',
   tagline: 'Simple Javascript Validation',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://simple-body-validator-documentation.vercel.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
   organizationName: 'jadKhoury1', // Usually your GitHub org/user name.
   projectName: 'simple-body-validator', // Usually your repo name.
 
@@ -24,7 +23,7 @@ const config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/jadKhoury1/simple-body-validator',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
