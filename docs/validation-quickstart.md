@@ -104,12 +104,3 @@ If the upcomint HTTP request contains "nested" field data, you may specify these
         'author.description': 'required',
     });
 ```
-
-On the other hand, if your field name contains a literal period, you can explicitly prevent this from being interpreted as "dot" syntax by escaping the period with a backslash.
-
-```js
-    validator.setRules ({
-        title: 'required|max:255',
-        'v1.\0': 'required',
-    });
-```

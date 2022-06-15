@@ -255,6 +255,13 @@ The parameter passed to the <code>notRegex</code> method must be an instance of 
 <Anchor id="nullable">nullable</Anchor>
 The field under validation may be <code>null</code>
 
+```js
+    publish_at: 'nullable|date',
+```
+
+In this example, we are specifying that the <code>publish_at</code> field may be either <code>null</code> or a valid date representation.
+If the <code>nullable</code> modifier is not added to the rule definition, the validator would consider <code>null</code> an invalid date.
+
 <Anchor id="numeric">numeric</Anchor>
 The field under validation must be numeric. This validation rule does not verify that the input is of type <code>number</code>,
 so a number in a <code>string</code> is also considered as numeric. If you need to validate the the input is of type <code>number</code>, 
@@ -381,7 +388,19 @@ zones: 'object|size:5';
 
 ```
 
-<Anchor id="strats_with">starts_with:<em>foo,bar...</em></Anchor>
+<Anchor id="sometimes">sometimes</Anchor>
+In some situations, you may wish to run validation checks against a field <strong>only</strong> if that field is present in the data being validated.
+To quickly accomplish this add the <code>sometimes</code> rule to your rule list. <br /> <br />
+
+```js
+    const validator = make(data, {
+        email: 'sometimes|required|email',
+    });
+```
+
+In the example above, the <code>email</code> field will only be validated if it is present in the <code>data</code> object.
+
+<Anchor id="starts_with">starts_with:<em>foo,bar...</em></Anchor>
 The field under validation must start with one of the given values.
 
 <Anchor id="string">string</Anchor>
