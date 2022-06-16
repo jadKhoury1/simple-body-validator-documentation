@@ -3,13 +3,13 @@ sidebar_position: 3
 title: Translating Error Messages
 ---
 
-Simple Body Validator comes with a built in translation feature that provides a convenient way to retrieve error messages in various languages, allowing you to easily support multiple languages for your data validation.
+Simple Body Validator comes with a built-in translation feature that provides a convenient way to retrieve error messages in various languages, allowing you to easily support multiple languages for your data validation.
 
 ### Translation Directory
 
 To add error message translations you need to create a <code>directory</code> in your project and add all the translation files there. For each language you must create a new file.
 
-Here's an example on how to add the translations, lets say that the directory where you want to add your translations is named <code>lang</code> and you want to add translations for the <code>French</code> and <code>Arabic</code> languages. The structure of your files must be as follow.
+Here's an example on how to add the translations, lets say that the directory where you want to add your translations is named <code>lang</code> and you want to add translations for the <code>French</code> and <code>Arabic</code> languages. The structure of your files must be as follows.
 
 ```js
     /lang
@@ -56,14 +56,14 @@ Setting the translation path should always be on top, before setting the default
 
 ### Translation File Content
 
-After setting the translation path, you need to populate the messages for your language files. Lets take for example the <code>fr.js</code>.
+After setting the translation path, you need to populate the messages for your language files. Let's take for example the <code>fr.js</code>.
 
 ```js title="fr.js"
     module.exports = {
          min: {
              numeric: 'Le champ :attribute doit être supérieur à :min.',
              string: 'Le champ :attribute doit contenir plus de :min caractères.'
-        }
+        },
         required: 'Le champ :attribute est requis.',
         string: 'Le chanp :attribute doit être une chaîne'
     };
@@ -84,13 +84,13 @@ You can specify the default language to be used by the validator, by invoking th
     const { setDefaultLang } = require('simple-body-validator');
 ```
 
-Lets say we want to set the <code>fr</code> lang as the default language.
+Let's say we want to set the <code>fr</code> lang as the default language.
 
 ```js 
     setDefaultLang('fr');
 ```
 
-Now the French error messages will be returned in case an error occured and in case no language was specified explicitly.
+Now the French error messages will be returned in case an error occurred and in case no language was specified explicitly.
 
 
 ### Specifying Validation Language
@@ -101,7 +101,7 @@ Besides the default language, you can explicitly specify the lang to be used eac
     const validator = make(data, rules).setLang(lang);
 ```
 :::tip
-In case the message was not found in the specified language file, the validator will fallback to the default language. In case the message was not found in the default language, the final fallback will be the English language
+In case the message was not found in the specified language file, the validator will fall back to the default language. In case the message was not found in the default language, the final fallback will be the English language.
 :::
  
 

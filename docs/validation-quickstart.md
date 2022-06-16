@@ -39,7 +39,7 @@ The first argument passed to the <code> make</code> method is the data under val
     const validator = make(data, rules);
 ```
 
-As you can see the validation rules are passed as a the second argument to the <code>make</code> method. All available validation rules are documented [here](/available-validation-rules).
+As you can see the validation rules are passed as the second argument to the <code>make</code> method. All available validation rules are documented [here](/available-validation-rules).
 
 Alternatively, validation rules may be specified as arrays of rules instead of a single <code>|</code> delimited string.
 
@@ -72,7 +72,7 @@ In case of validation failure, an error object will be returned based on the fai
 
 ### Stopping On First Validation Failure
 
-The <code>stopOnFirstFailure</code> method will inform the validator that it should stop validating all attributes once a single validation failure has occured
+The <code>stopOnFirstFailure</code> method will inform the validator that it should stop validating all attributes once a single validation failure has occurred
 
 
 ```js
@@ -95,7 +95,7 @@ While the <code>bail</code> rule only stops a specific field when it encounters 
 
 ### A Note On Nested Attributes
 
-If the upcomint HTTP request contains "nested" field data, you may specify these fields in your validation rule using the "dot" syntax.
+If the upcoming HTTP request contains "nested" field data, you may specify these fields in your validation rule using the "dot" syntax.
 
 ```js
      validator.setRules({

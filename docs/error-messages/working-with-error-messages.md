@@ -5,21 +5,21 @@ title: Working With Error Messages
 
 After calling the <code>errors</code> method on the validator, you will receive an <code>ErrorBag</code> instance, which has a variety of convenient methods for working with error messages.
 
-Lets say we have the following data and rules and we run the validation.
+Let's say we have the following data and rules, and we run the validation.
 
 ```js
     const validator = make()
     .setData({ email: 123 })
     .setRules({ 
-        name: 'required'
-        email: 'required|string|email' 
+        name: 'required',
+        email: 'required|string|email',
     })
     .validate();
 ```
 
-### Retreiving the First Error Message For a Field
+### Retrieving the First Error Message For a Field
 
-To retreive the first error message for a given field, use the <code>first</code> method.
+To retrieve the first error message for a given field, use the <code>first</code> method.
 
 ```js
     const errors = validator.errors();
@@ -28,7 +28,7 @@ To retreive the first error message for a given field, use the <code>first</code
     console.log(errors.first('email'));
 ```
 
-To retreive the first message regardless of the attribute, use the <code>first</code> method without passing any vallue.
+To retrieve the first message regardless of the attribute, use the <code>first</code> method without passing any value.
 
 ```js
     const firstError = errors.first();
@@ -50,7 +50,7 @@ To check if an error exists for a specific attribute, use the <code>has</code> m
 
 ### Retrieving All Error Messages For A Field
 
-If you want to retreive an array of all messages for a given field, use the <code>get</code> method
+If you want to retrieve an array of all messages for a given field, use the <code>get</code> method
 
 ```js
     const emailErrors = errors.get('email');
@@ -62,7 +62,7 @@ If you want to retreive an array of all messages for a given field, use the <cod
     ]
 ```
 
-If you would like to retreive the error type linked to each error message, you can pass <code>true</code> as the second argument to the <code>get</code> method.
+If you would like to retrieve the error type linked to each error message, you can pass <code>true</code> as the second argument to the <code>get</code> method.
 
 ```js
     const emailErrors = errors.get('email', true);
@@ -88,9 +88,9 @@ const errors = validator.errors().addErrorTypes();
 ```
 :::
 
-### Retreiving Error Messages for All the fields
+### Retrieving Error Messages for All the fields
 
-If you want to retreive the error messages for all the fields, use the <code>all</code> method.
+If you want to retrieve the error messages for all the fields, use the <code>all</code> method.
 
 ```js
     const errors = errors().all();

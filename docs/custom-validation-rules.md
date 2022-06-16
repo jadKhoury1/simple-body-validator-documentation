@@ -38,7 +38,7 @@ Below we will showcase a simple example on how to register rules
     });
 ```
 
-You can also specify the error message that should be returned in case the cutstom rule fails, by adding a new key value to the translation file.
+You can also specify the error message that should be returned in case the custom rule fails, by adding a new key value to the translation file.
 
 ```js
     telephone: 'The :attribute phone number is not in the format XXX-XXX-XXXX.',
@@ -48,7 +48,7 @@ You can also specify the error message that should be returned in case the cutst
 The <code>:attribute</code> placeholder will be replaced by the actual name of the field under validation.
 :::
 
-In case you have a more complex example and you want to replace placeholders in the error message you can pass a method as a third parameter.
+In case you have a more complex example, and you want to replace placeholders in the error message you can pass a method as a third parameter.
 
 ```js
     complex_telephone: 'The :attribute phone number is not in the format +:code XXX-XXX-XXXX.',
@@ -77,7 +77,7 @@ In the case of the <code>complex_telephone</code> rule we want to replace the <c
 ```
 
 :::caution
-You cannot register a rule that already exists. For example you cannot register a rule named <code>required</code> since it already exists in the validation rules.
+You cannot register a rule that already exists. For example, you cannot register a rule named <code>required</code> since it already exists in the validation rules.
 :::
 
 Once the rule has been registered, you may use it as any other rule.
@@ -92,7 +92,7 @@ Once the rule has been registered, you may use it as any other rule.
 
 ### Accessing Additional Data In Your Custom Rule
 
-If your registered validation rule needs to access all of the other data undergoing validation. You can use the <code>this.data</code>
+If your registered validation rule needs to access all the other data undergoing validation. You can use the <code>this.data</code>
 attribute.
 
 ```js
@@ -125,7 +125,7 @@ To register a rule that runs even when an attribute is <em>empty</em>, the <code
     import { registerImplicit } from 'simple-body-validator';
 ```
 
-In the example below we will register an <em>implicit</em> rule called <code>required_if_type</code> which will check wether the <em>field</em> is required based on the <code>type</code> of the other <em>field's</em> value.
+In the example below we will register an <em>implicit</em> rule called <code>required_if_type</code> which will check whether the <em>field</em> is required based on the <code>type</code> of the other <em>field's</em> value.
 
 ```js
     const { registerImplicit } = require('simple-body-validator');
@@ -179,7 +179,7 @@ Another way of creating custom validation rules is using <code>Rule</code> objec
     import { Rule } from 'simple-body-validator';
 ```
 
-A rule object contains two methods <code>passes</code> and <code>getMessage</code>. The <code>passes</code> method receives the attribute value and name, and should return <code>true</code> or <code>false</code> depending on wether the attribute value is valid or not. 
+A rule object contains two methods <code>passes</code> and <code>getMessage</code>. The <code>passes</code> method receives the attribute value and name, and should return <code>true</code> or <code>false</code> depending on whether the attribute value is valid or not. 
 The <code>getMessage</code> method should return the validation error message that should be used when validation fails.
 
 ```js 
@@ -255,7 +255,7 @@ Below we will showcase a simple example on how to register an implicit rule.
 
 ### Accessing Additional Data In Your Class
 
-If your custom validation rule class needs to access all of the other data undergoing validation. You can use the <code>this.data</code>
+If your custom validation rule class needs to access all the other data undergoing validation. You can use the <code>this.data</code>
 method in the <code>passes</code> attribute.
 
 ```js
@@ -272,7 +272,7 @@ As showcased in the previous example the <code>trans</code> method can be used t
     this.trans('uppercase');
 ```
 
-If you have a more complex senario where you need to replace more place holders you can pass an object as second parameter to the <code>trans</code> method.
+If you have a more complex scenario where you need to replace more placeholders you can pass an object as second parameter to the <code>trans</code> method.
 
 ```js
     this.trans('required_if_type', [

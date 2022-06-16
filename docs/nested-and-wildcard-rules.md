@@ -4,7 +4,7 @@ title: Nested and Wildcard Rules
 sidebar_position: 6
 ---
 
-Validating nested object based form input field doesn't have to be pain. You may use "dot notation" to validate attributes within an object. For example, if the incoming HTTP request contains a <code>name.first</code> you may validated like so.
+Validating nested object based form input field doesn't have to be pain. You may use "dot notation" to validate attributes within an object. For example, if the incoming HTTP request contains a <code>name.first</code> you may validate like so.
 
 ```js
     const { make } = require('simple-body-validator');
@@ -42,7 +42,7 @@ You may also validate each element in array of objects
     });
 ```
 
-You can also use the wilcard notation to run validation on all array elements.
+You can also use the wildcard notation to run validation on all array elements.
 
 ```js
     const { make } = require('simple-body-validator');
@@ -63,7 +63,7 @@ You can also use the wilcard notation to run validation on all array elements.
 
 #### Custom Error Messages
 
-You can add custom error messages for wildcard or nested validations
+You can add custom error messages for wildcard or nested validations.
 
 ```js
     const { make } = require('simple-body-validator');
