@@ -14,7 +14,7 @@ import Anchor from '@site/src/components/Anchor';
 The field under validation must be <code>"yes"</code>, <code>"on"</code>, <code>1</code>, or <code>true</code>.
 This is useful for validating "Terms of Service" acceptance or similar fields.
 
-<Anchor id="accepted_if">accepted_if:anotherfield,value</Anchor>
+<Anchor id="accepted_if">accepted_if:<em>anotherfield,value,...</em></Anchor>
 The field under validation must be <code>"yes"</code>, <code>"on"</code>, <code>1</code>, or <code>true</code> if
 another field under validation is equal to a specified value. This is useful for validating "Terms of Service"
 acceptance or similar fields.
@@ -101,7 +101,7 @@ The field under validation must be equal to the given date. The dates will be co
 <Anchor id="declined">declined</Anchor>
 The field under validation must be <code>"no"</code>, <code>"off"</code>, <code>0</code>, or <code>false</code>.
 
-<Anchor id="declined_if">declined_if:another_value,value</Anchor>
+<Anchor id="declined_if">declined_if:<em>anotherfield,value,...</em></Anchor>
 The field under validation must be <code>"no"</code>, <code>"off"</code>, <code>0</code>, or <code>false</code> if another field under validation is equal to a specified value.
 
 <Anchor id="different">different:<em>field</em></Anchor>
