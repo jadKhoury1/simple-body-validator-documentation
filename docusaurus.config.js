@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Simple Body Validor',
+  title: 'Simple Body Validator',
   tagline: 'Simple Javascript Validation',
   url: 'https://simple-body-validator-documentation.vercel.app',
   baseUrl: '/',
@@ -22,8 +22,6 @@ const config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl: 'https://github.com/jadKhoury1/simple-body-validator',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

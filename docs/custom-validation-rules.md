@@ -179,7 +179,7 @@ Another way of creating custom validation rules is using <code>Rule</code> objec
     import { Rule } from 'simple-body-validator';
 ```
 
-A rule object contains two methods <code>passes</code> and <code>getMessage</code>. The <code>passes</code> method receives the attribute value and name, and should return <code>true</code> or false depending on wether the attribute value is valid or not. 
+A rule object contains two methods <code>passes</code> and <code>getMessage</code>. The <code>passes</code> method receives the attribute value and name, and should return <code>true</code> or <code>false</code> depending on wether the attribute value is valid or not. 
 The <code>getMessage</code> method should return the validation error message that should be used when validation fails.
 
 ```js 

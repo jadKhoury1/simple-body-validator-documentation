@@ -65,8 +65,8 @@ To run the validation against the defined rules you need to invoke the <code>val
 In case of validation failure, an error object will be returned based on the failed rules. You can find out more about [validation errors](/error-messages/working-with-error-messages)
 
 ```js
-    if (! validor.validate()) {
-        console.log('Errors: ', validor.errors().all());
+    if (! validator.validate()) {
+        console.log('Errors: ', validator.errors().all());
     }
 ```
 
@@ -76,8 +76,8 @@ The <code>stopOnFirstFailure</code> method will inform the validator that it sho
 
 
 ```js
-    if (! validor.stopOnFirstFailure().validate()) {
-        console.log('Error: ', validor.errors().first());
+    if (! validator.stopOnFirstFailure().validate()) {
+        console.log('Error: ', validator.errors().first());
     }
 ```
 
