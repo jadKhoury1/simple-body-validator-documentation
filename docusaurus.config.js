@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Simple Body Validator',
   tagline: 'Simple Javascript Validation',
-  url: 'https://simple-body-validator-documentation.vercel.app',
+  url: 'https://simple-body-validator.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -26,10 +26,10 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-        googleAnalytics: {
+        gtag: {
           trackingID: 'G-L4BXFB0FF0',
           anonymizeIP: true,
-        },
+        }
       },
     ],
   ],
