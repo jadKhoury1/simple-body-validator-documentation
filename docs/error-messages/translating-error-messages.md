@@ -5,6 +5,8 @@ title: Translating Error Messages
 
 Simple Body Validator comes with a built-in translation feature that provides a convenient way to retrieve error messages in various languages, allowing you to easily support multiple languages for your data validation.
 
+## Translation Configuration.
+
 ### Translation Object
 
 The first way to add error message translations is to pass an object to the <code>setTranslationObject</code> method.
@@ -30,7 +32,7 @@ Each object key must refer to a language code.
     })
 ```
 
-We suggest that you add tranlations for different languages in seperate translation files. Let's say that the directory where you want to add your translations is named <code>lang</code> and you want to add translations for the <code>English</code> and <code>Frensh</code> languages. The structure of your translations files will be as follows. For the purpose of the example we will use <code>app.js</code> as the entry point to our project.
+We suggest that you add translations for different languages in separate translation files. Let's say that the directory where you want to add your translations is named <code>lang</code> and you want to add translations for the <code>English</code> and <code>French</code> languages. The structure of your translations files will be as follows. For the purpose of the example we will use <code>app.js</code> as the entry point to our project.
 
 ```js
     /lang
@@ -40,7 +42,7 @@ We suggest that you add tranlations for different languages in seperate translat
     app.js
 ```
 
-Let's take a look at each file seperatly.
+Let's take a look at each file separately.
 
 ```js title="lang/en.js"
     module.exports = {
@@ -66,7 +68,7 @@ And finally after adding all your translations, use the <code>index.js</code> to
     };
 ```
 
-Meanwile in the <code>app.js</code> you can pass the translation object to the <code>setTranslationObject</code> method.
+Meanwhile in the <code>app.js</code> you can pass the translation object to the <code>setTranslationObject</code> method.
 
 ```js title="app.js"
     const translations = require('./lang.js');
@@ -128,23 +130,6 @@ And <code>app.js</code> is the entry point of your project. To set the translati
 Setting the translation path should always be on top, before setting the default lang or running any validation, so that you don't face any translation problems.
 :::
 
-### Translation File Content
-
-After creating the translation files, you need to populate them with messages. Let's take for example the <code>fr.js</code>.
-
-```js title="fr.js"
-    module.exports = {
-         min: {
-             numeric: 'Le champ :attribute doit être supérieur à :min.',
-             string: 'Le champ :attribute doit contenir plus de :min caractères.'
-        },
-        required: 'Le champ :attribute est requis.',
-        string: 'Le chanp :attribute doit être une chaîne'
-    };
-```
-
-You can find a list of all error messages [here](/error-messages/error-messages-list). In case an error message is not filled for a rule the default message will be returned.
-
 
 ### Setting The Default Language 
 
@@ -177,6 +162,37 @@ Besides the default language, you can explicitly specify the lang to be used eac
 :::tip
 In case the message was not found in the specified language file, the validator will fall back to the default language. In case the message was not found in the default language, the final fallback will be the English language.
 :::
+
+## Specifying Custom Messages
+
+Simple body validator has already default error messages specified for each rule. You are free to change or modify these messages based on the needs of your application
+
+### Custom Messages for Error rules
+
+After creating the translation files, you need to populate them with messages. Let's take for example the <code>fr.js</code>.
+
+```js title="fr.js"
+    module.exports = {
+         min: {
+             numeric: 'Le champ :attribute doit être supérieur à :min.',
+             string: 'Le champ :attribute doit contenir plus de :min caractères.'
+        },
+        required: 'Le champ :attribute est requis.',
+        string: 'Le chanp :attribute doit être une chaîne'
+    };
+```
+
+You can find a list of all error messages [here](/error-messages/error-messages-list). In case an error message is not filled for a rule the default message will be returned.
+
+### Specifying Attributes in Language Files
+
+Many of Simple Body Validator built-in error messages include an <code>:attribute</code> placeholder that is replaced with the name of the field or attribute under validation. If you would like the <code>:attribute</code> portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the <code>attributes</code> object of your <code>lang/xx.js</code> language file.
+
+```js
+    attributes: {
+        email: 'email address',
+    }
+```
  
 
 

@@ -43,4 +43,22 @@ Sometimes you may wish to specify a custom error message only for a specific att
     };
 ```
 
+### Specifying Custom Attributes Values
+
+Many of Simple Body Validator built in error messages include an <code>:attribute</code> placeholder that is replaced with the name of the field or attribute under validation. To customize the values used to replace these placeholders for specific fields, you may pass an object of custom attributes as the fourth argument to the <code>make</code> method or pass the object to the <code>setCustomAttributes</code> method.
+
+```js
+    // pass the object as the fouth the attribute
+    const validator = make(data, rules, messages, {
+        email: 'email address',
+    })
+```
+
+```js
+    // use the 'setCustomAttributes' method to customize attribute value
+    const validator = make(data, rules).setCustomAttributes({
+        email: 'email address'
+    });
+```
+
 
