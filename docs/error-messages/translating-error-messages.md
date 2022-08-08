@@ -184,6 +184,20 @@ After creating the translation files, you need to populate them with messages. L
 
 You can find a list of all error messages [here](/error-messages/error-messages-list). In case an error message is not filled for a rule the default message will be returned.
 
+
+### Custom Messages For Specific Attributes
+
+You may customize the error messages used for specific attribute and rule combinations within your application's validation language files. To do so, add your message customizations to the <code>custom</code> object of your application's <code>lang/xx.js</code> language file.
+
+```js
+    custom: {
+        email: {
+            required: 'We need to know your email address!',
+            max: 'Your email address is too long!'
+        }
+    }
+```
+
 ### Specifying Attributes in Language Files
 
 Many of Simple Body Validator built-in error messages include an <code>:attribute</code> placeholder that is replaced with the name of the field or attribute under validation. If you would like the <code>:attribute</code> portion of your validation message to be replaced with a custom value, you may specify the custom attribute name in the <code>attributes</code> object of your <code>lang/xx.js</code> language file.
