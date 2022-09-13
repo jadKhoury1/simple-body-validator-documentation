@@ -151,6 +151,28 @@ Let's say we want to set the <code>fr</code> lang as the default language.
 
 Now the French error messages will be returned in case an error occurred and in case no language was specified explicitly.
 
+### Setting The Fallback Language
+
+You can determine the fallback language to be used when the current one is not available. To do so the <code>setFallbackLang</code> method needs to be invoked with the desired fallback language passed as the parameter.
+
+
+```js
+    import { setFallbackLang } from 'simple-body-validator';
+```
+
+```js
+    const { setFallbackLang } = require('simple-body-validator');
+```
+
+Let's say we want to set the <code>fr</code> lang as the fallback language.
+
+```js 
+    setFallbackLang('fr');
+```
+
+:::caution Difference Between Default and Fallback Language
+The **default** language will be used when no language is specified explicitly, while the **fallback** language will be used in case the translation mechanism was not able to find the message related to the current language.
+:::
 
 ### Specifying Validation Language
 
@@ -160,7 +182,7 @@ Besides the default language, you can explicitly specify the lang to be used eac
     const validator = make(data, rules).setLang(lang);
 ```
 :::tip
-In case the message was not found in the specified language file, the validator will fall back to the default language. In case the message was not found in the default language, the final fallback will be the English language.
+In case the message was not found in the specified language file, the validator will utilize to the fallback language. In case the message was not found in the fallback language, the final fallback will be the English language.
 :::
 
 ## Specifying Custom Messages
