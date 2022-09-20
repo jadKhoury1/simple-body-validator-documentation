@@ -14,6 +14,7 @@
   --ifm-color-primary-lighter: #359962;
   --ifm-color-primary-lightest: #3cad6e;
   --ifm-code-font-size: 95%;
+  --sidebar-category-c: #141414
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -25,6 +26,7 @@
   --ifm-color-primary-light: #29d5b0;
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
+  --sidebar-category-c: #f3f3f3;
 }
 
 .docusaurus-highlight-code-line {
@@ -32,6 +34,39 @@
   display: block;
   margin: 0 calc(-1 * var(--ifm-pre-padding));
   padding: 0 var(--ifm-pre-padding);
+}
+
+.menu__link {
+  align-items: center;
+  display: flex;
+  font-size: 0.813rem;
+  font-weight: 500;
+  letter-spacing: -.01em;
+  line-height: 16px;
+}
+
+
+.examples-c {
+  margin-bottom: 2rem;
+}
+
+.theme-doc-sidebar-item-category-level-1>.menu__list-item-collapsible .menu__link {
+    color: var(--sidebar-category-c);
+    font-size: .938rem;
+    font-weight: 600;
+    line-height: 100%;
+}
+
+.examples-c,.theme-doc-sidebar-item-category-level-1>.menu__list-item-collapsible .menu__link--sublist-caret::after {
+ background: none;
+}
+
+.theme-doc-sidebar-item-category-level-2>.menu__list-item-collapsible .menu__link {
+  font-weight: bold;
+}
+
+.theme-doc-sidebar-item-category-level-2>.menu__list-item-collapsible .menu__link--sublist-caret::after {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.3rem 1.3rem;
 }
 
 [data-theme='dark'] .docusaurus-highlight-code-line {
