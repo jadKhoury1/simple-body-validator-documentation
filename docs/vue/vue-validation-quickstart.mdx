@@ -1,0 +1,154 @@
+---
+sidebar_position: 1
+sidebar_label: Validation Quickstart
+title: Vue JS Validation Quickstart
+---
+
+In this tutorial we will learn how to validate fields in a vue js form, using the **simple-body-validator** validation
+mechanism. We will start with a basic vue js form, and run all the needed validations.
+
+## Installation
+
+```bash
+npm i simple-body-validator
+```
+
+## Basic Example
+
+```html
+    <form
+        @submit="validateForm"
+    >
+        <div>
+            <label for="name">Name</label>
+            <input
+                id="name"
+                v-model="data.name"
+                type="text"
+                name="name"
+            />
+            <p v-if="errors.has('name')">{{ errors.first('name') }}</p>
+        </div>
+
+        <div>
+            <label for="age">Age</label>
+            <input
+                id="age"
+                v-model="data.age"
+                name="age"
+                type="number"
+            />
+            <p v-if="errors.has('age')">{{ errors.first('age') }}</p>
+        </div>
+
+        <div>
+            <label for="movie"> Favorite Movie</label>
+            <select
+                id="movie"
+                v-model="data.movie"
+                name="movie"
+            >
+                <option value="star-wars">Star Wars</option>
+                <option value="vanilla-sky">Vanilla Sky</option>
+                <option value="atomic-blonde">Atomic Blonde</option>
+            </select>
+            <p v-if="errors.has('movie')">{{ errors.first('movie') }}</p>
+        </div>
+
+        <div>
+            <input
+                type="submit"
+                value="submit"
+            >
+        </div>
+    </form>
+```
+
+Now let's write the Javascript part of the component.
+
+```js
+    import { make, ruleIn } from 'simple-body-validator';
+
+    export default {
+        data() {
+            return {
+                // Create a new validator instance
+                validator: make(),
+                data: {
+                    age: null,
+                    name: null,
+                    movie: null
+                },
+                // Specify the needed rules
+                rules: {
+                    age: ['required', 'integer', 'min:18', 'max:64'],
+                    name: [ 'required', 'string', 'min:3', 'max:255'],
+                    movie: [ 'required', ruleIn(['star-wars', 'vanilla-sky', 'atomic-blonde'])],
+                },
+            }
+        },
+        created() {
+          // Pass the inital data and rules to the validator instance
+          this.validator.setData(this.data).setRules(this.rules);
+        },
+        computed: {
+            errors() {
+                return this.validator.errors();
+            }
+        },
+        methods: {
+            validateForm(event) {
+                // Pass the submitted form data to the validator instance and run the validation
+                if (! this.validator.setData(this.data).validate()) {
+                    event.preventDefault();
+                }
+            }
+        }
+    }
+```
+
+And That's it, when the <code>submit</code> button is clicked, error messages will appear under the related fields.
+Try to change the values of the fields and click submit again, the error messages will be updated accordingly.
+
+## Form Instant Validation Example
+
+Below we will demonstrate an example on how to run the form validation instantly while the user is updating the value of a field.
+We will consider that you already started with the basic example [above](/vue/vue-validation-quickstart#basic-example), and we will take things from there.
+
+We will start by adding a new method to our <code>methods</code> object named <code>onChangeValidate</code>.
+
+```js
+    onChangeValidate({ target: { name, value }}) {
+      this.validator.validate(name, value);
+    }
+```
+
+On each input change the <code>onChangeValidate</code> method will call the <code>validate</code> method against
+the new value of the field using its name as reference.
+
+Now the <code>onChangeValidate</code> needs to be implemented in the html template and triggerred whenever any form value is changed.
+
+For the <code>input</code> related fields, we need to add the following code.
+
+```html
+    <input
+        @input="onChangeValidate"
+        ...
+    >
+```
+
+For the <code>drop-down</code> we should use the <code>@change</code> event
+
+```html
+    <select
+        @change="onChangeValidate"
+        ...
+    >
+```
+And that's it, the fields are now being validated dynamically. You can see the whole code and results below.
+
+<p>
+    <iframe width="100%" height="400px" src="https://stackblitz.com/edit/vue-qfh9ew?ctl=1&embed=1&file=src/App.vue"> </iframe>
+</p>
+
+To read more about handling error messages in **simple-body-validator** click [here](/error-messages/working-with-error-messages).
