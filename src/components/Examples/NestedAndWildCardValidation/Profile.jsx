@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import AddressesList from './AddressesList';
+import SocialPlatforms from './SocialPlatforms';
+import Gender from './Gender';
 import { Context }  from './FormContext';
 import styles from './styles.module.css'
 
@@ -33,6 +35,9 @@ const Profile = ({ profile }) => {
                     />
                     { errors.has('profile.lastName') && <p className={styles.clRed}>{errors.first('profile.lastName')}</p>}
                 </div>
+
+                <Gender selectedGender={profile.gender} />
+                <SocialPlatforms socialPlatforms={profile.socialPlatforms}/>
                 <AddressesList addresses={profile.addresses}/>
             </div>
         </div>

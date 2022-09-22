@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from './FormContext';
 import Form from './Form';
-import { Password } from 'simple-body-validator';
+import { Password, ruleIn } from 'simple-body-validator';
 
 
 export default () => {
@@ -12,6 +12,8 @@ export default () => {
         profile: {
             firstName: '',
             lastName: '',
+            gebder: '',
+            socialPlatforms: [],
             addresses: [
                 {
                     street: '',
@@ -28,6 +30,11 @@ export default () => {
         profile: {
             firstName: 'required|string|min:3|max:30',
             lastName: 'required|string|min:3|max:30',
+            gender: [
+                'required', ruleIn(['Female', 'Male', 'Other'])
+            ],
+            socialPlatforms: 'bail|array|min:2|max:4',
+            'socialPlatforms.*': ruleIn(['Facebook', 'Instagram', 'Linkedin', 'Twitter']),
             addresses: 'required|array|min:1',
             'addresses.*': 'object',
             'addresses.*.street': 'required|string|min:5|max:255',
@@ -41,9 +48,15 @@ export default () => {
         }
     };
 
+    const customMessages = {
+        socialPlatforms: {
+            min: 'You must at least select :min platforms.'
+        }
+    };
+
     return (
         <div>
-            <Provider initialData={data} rules={rules}>
+            <Provider initialData={data} rules={rules} customMessages={customMessages}>
                 <Form />
             </Provider>
         </div>

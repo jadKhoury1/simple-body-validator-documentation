@@ -1,0 +1,737 @@
+---
+sidebar_position: 5
+sidebar_label: Nested and Wildcard Validation
+title: Vue JS Nested and Wildcard Validation
+---
+
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import NestedAndWildCardValidation from '@site/src/components/Examples/NestedAndWildCardValidation';
+
+
+In this section we will go through a in depth example on how to validate complex forms that contain nested objects and array of objects.
+
+The form that we aim to validate looks like the following.
+
+<BrowserWindow minHeight="300px" maxHeight="500px">
+    <NestedAndWildCardValidation />
+</BrowserWindow>
+
+
+## Components Structure
+
+To be able to proceed with the implementation the form needs to be divided into components. The image below shows the different components used
+for the example. Let's start by creating the <code>Form</code> directory inside of the <code>components</code> directory.
+
+![Example banner](/img/form-components.jpg)
+
+
+### store.js
+
+The first step to be done before creating any component, is to create a <code>reactive</code> store that will hold the <code>[ErrorBag](/error-messages/working-with-error-messages)</code>
+instance to be used in all the components. That way the errors can be imported directly in the component instead of being passed from <code>parent</code> to <code>child</code> components.
+
+Go ahead and create a <code>store.js</code> file in the <code>Form</code> directory.
+
+```js title="store.js"
+
+import { reactive } from 'vue';
+import { make } from 'simple-body-validator';
+
+const validator = make();
+const errors = validator.errors();
+
+export const store = reactive({
+    validator, errors
+});
+
+```
+
+:::caution
+You are not bounded to vue <code>reactive</code> function for the state management, you can manage state the way it fits you the most.
+:::
+
+### index.vue
+
+Create the <code>index.vue</code> file in the <code>Form</code> directory. The <code>index.vue</code> will be used to
+set the initial **data**, **rules**, and to pass them to the <code>validator</code> instance.
+Let's start with the imports.
+
+```js
+    import { store } from './store';
+    import { Password, ruleIn } from 'simple-body-validator';
+```
+
+
+Next, we will specify the initial **data** attributes, along wih their respective **rules**. You can find all the available rules [here](/available-validation-rules).
+
+```js
+    data() {
+        return {
+            validator: store.validator,
+            data: {
+                email: '',
+                password: '',
+                profile: {
+                    firstName: '',
+                    lastName: '',
+                    gender: '',
+                    socialPlatforms: [],
+                    addresses: [
+                        {
+                            street: '',
+                            city: '',
+                            zipCode: '',
+                        }
+                    ]
+                }
+            },
+            rules: {
+                email: 'required|email',
+                password: [ 'required', Password.default() ],
+                profile: {
+                    firstName: 'bail|required|string|min:3|max:30',
+                    lastName: 'bail|required|string|min:3|max:30',
+                    // Gender must match one of the predefined values
+                    gender: [
+                        'required', ruleIn(['Female', 'Male', 'Other'])
+                    ],
+                    // The social platform must an array of min 2 items, max 3 items,
+                    // and each item must match one of the predefined values
+                    socialPlatforms: 'bail|array|min:2|max:4',
+                    'socialPlatforms.*': ruleIn(['Facebook', 'Instagram', 'Linkedin', 'Twitter']),
+                    // The address must be an array with at least one item
+                    addresses: 'required|array|min:1',
+                    // Each item in the addresses array must be an object,
+                    'addresses.*': 'object',
+
+                    // validate the attributes for each address object
+
+
+                    'addresses.*.street': 'required|string|min:5|max:255',
+                    // The city is required when zip code doesn't exist
+                    'addresses.*.city': [
+                        'required_without:profile.addresses.*.zipCode',
+                        'string', 'min:5', 'max:255'
+                    ],
+                    // The zip Code is required when city doesn't exist
+                    'addresses.*.zipCode': [
+                        'required_without:profile.addresses.*.city', 'digits:5'
+                    ],
+                }
+            }
+        }
+    }
+```
+
+
+If you take a look at the <code>rules</code> object you will notice that it matches exactly the structure of the <code>data</code>
+object. Additionally, to validate the array attributes we used the <code>*</code> notation, and in the **city** validation you might have
+noticed the following.
+
+```js
+    'required_without:profile.addresses.*.zipCode',
+```
+
+In the <code>required_without</code> rule we specified the full path of the attribute, otherwise the library will not be able to
+map the rule to the correct attribute value. You can find an introduction on  **Nested and Wildcard** rules [here](/nested-and-wildcard-rules).
+
+Now we will use the <code>create()</code> lifecycle method to pass the initial **data** and **rules** to the <code>validator</code> instance.
+
+
+```js
+    created() {
+        this.validator.setData(this.data).setRules(this.rules).setCustomMessages({
+            socialPlatforms: {
+                min: 'You must at least select :min platforms'
+            }
+        });
+    },
+```
+
+:::tip Set Custom Messages
+The <code>setCustomMessages</code> method can be used to override the message generated by the library. To find out more on
+**Customizing Error Messages** click [here](/error-messages/customizing-error-messages).
+:::
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import { Password, ruleIn } from 'simple-body-validator';
+import { store } from './store';
+import Account from './Account.vue';
+import Profile from './Profile.vue';
+
+export default {
+    components: {
+        Account,
+        Profile,
+    },
+    data() {
+        return {
+            validator: store.validator,
+            data: {
+                email: '',
+                password: '',
+                profile: {
+                    firstName: '',
+                    lastName: '',
+                    gender: '',
+                    socialPlatforms: [],
+                    addresses: [
+                        {
+                            street: '',
+                            city: '',
+                            zipCode: '',
+                        }
+                    ]
+                }
+            },
+            rules: {
+                email: 'required|email',
+                password: [ 'required', Password.default() ],
+                profile: {
+                    firstName: 'required|string|min:3|max:30',
+                    lastName: 'required|string|min:3|max:30',
+                    gender: [
+                        'required', ruleIn(['Female', 'Male', 'Other'])
+                    ],
+                    socialPlatforms: 'bail|array|min:2|max:4',
+                    'socialPlatforms.*': ruleIn(['Facebook', 'Instagram', 'Linkedin', 'Twitter']),
+                    addresses: 'required|array|min:1',
+                    'addresses.*': 'object',
+                    'addresses.*.street': 'required|string|min:5|max:255',
+                    'addresses.*.city': [
+                        'required_without:profile.addresses.*.zipCode',
+                        'string', 'min:5', 'max:255'
+                    ],
+                    'addresses.*.zipCode': [
+                        'required_without:profile.addresses.*.city', 'digits:5'
+                    ],
+                }
+            }
+        }
+    },
+    created() {
+        this.validator.setData(this.data).setRules(this.rules).setCustomMessages({
+            socialPlatforms: {
+                min: 'You must at least select :min platforms'
+            }
+        });
+    },
+    methods: {
+        validateForm(event) {
+            if (! this.validator.setData(this.data).validate()) {
+                event.preventDefault();
+            }
+        },
+    },
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <form
+        @submit="validateForm"
+    >
+        <Account :data="data" />
+        <Profile :profile="data.profile" />
+        <p>
+            <input
+                type="submit"
+                value="Register"
+            >
+        </p>
+    </form>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="css" label="CSS">
+```
+
+```css
+.mr-10 {
+    margin-right: 10px;
+}
+
+.mr-20 {
+    margin-right: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.cl-red {
+    color: red;
+}
+
+.inline {
+    display: inline-block;
+}
+```
+
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+:::warning
+The <code>index.vue</code> component will not work directly since we didn't create the <code>Account</code> and <code>Profile</code> components yet.
+:::
+
+### Account.vue
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import { store } from './store';
+
+export default {
+    props: {
+        data: {
+            type: Object,
+            default: {}
+        }
+    },
+    data() {
+        return {
+            errors: store.errors
+        }
+    },
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <div>
+        <h2>Account</h2>
+        <div class="mb-20">
+            <label class="mr-10" for="email">Email</label>
+            <input
+                id="email"
+                v-model="data.email"
+                type="email"
+                name="email"
+            >
+            <p class="cl-red" v-if="errors.has('email')">{{ errors.first('email')}}</p>
+        </div>
+
+        <div class="mb-20">
+            <label class="mr-10" for="password">Password</label>
+            <input
+                id="password"
+                v-model="data.password"
+                type="password"
+                name="password"
+            >
+            <p class="cl-red" v-if="errors.has('password')">{{ errors.first('password') }}</p>
+        </div>
+    </div>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+### Profile.vue
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import { store } from './store';
+import SocialPlatform from './SocialPlatform.vue';
+import Gender from './Gender.vue';
+import AddressesList from './AddressesList.vue';
+
+
+export default {
+    components: {
+        SocialPlatform,
+        Gender,
+        AddressesList,
+    },
+    props: {
+        profile: {
+            type: Object,
+            default: {},
+        }
+    },
+    data() {
+        return {
+            errors: store.errors
+        };
+    },
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <div>
+         <div class="mb-20 mr-20 inline">
+            <label class="mr-10" for="firstName">First Name</label>
+            <input
+                id="firstName"
+                v-model="profile.firstName"
+                type="text"
+                name="firstName"
+            />
+            <p class="cl-red" v-if="errors.has('profile.firstName')">{{ errors.first('profile.firstName') }}</p>
+        </div>
+
+        <div class="mb-20 inline">
+            <label class="mr-10" for="lastName">Last Name</label>
+            <input
+                id="lastName"
+                v-model="profile.lastName"
+                type="text"
+                name="lastName"
+            />
+            <p class="cl-red" v-if="errors.has('profile.lastName')">{{ errors.first('profile.lastName') }}</p>
+        </div>
+        <Gender
+            :selectedGender="profile.gender"
+            @selectGender="gender => profile.gender = gender"
+        />
+        <SocialPlatform
+            :socialPlatforms="profile.socialPlatforms"
+        />
+        <AddressesList :addresses="profile.addresses"/>
+    </div>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+:::warning
+The <code>Profile.vue</code> will not work directly since we didn't create the <code>Gender</code>, <code>SocialPlatform</code>, and <code>AddressesList</code> components yet.
+:::
+
+
+If you take a look at the **HTML** part of the <code>Profile</code> component, you will notice that when we checked if the error exist
+we followed the same path specified in the **rules** object.
+
+```html
+<p class="cl-red" v-if="errors.has('profile.firstName')">{{ errors.first('profile.firstName') }}</p>
+```
+
+### Gender.vue
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import { store } from './store';
+export default {
+     props: {
+        selectedGender: String,
+    },
+    data() {
+        return {
+            errors: store.errors,
+            genderList: [
+                'Female', 'Male', 'Other',
+            ],
+        };
+    },
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <div class="mb-20">
+        <label class="mr-10">Gender</label>
+        <template v-for="gender in genderList" :key="gender">
+            <input
+                type="radio"
+                :id="gender"
+                name="gender"
+                :value="gender"
+                @change="() => $emit('selectGender', gender)"
+                :checked="gender === selectedGender"
+            />
+            <label :for="gender" class="mr-10">{{ gender }}</label>
+        </template>
+        <p class="cl-red" v-if="errors.has('profile.gender')">{{ errors.first('profile.gender') }}</p>
+    </div>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+### SocialPlatform.vue
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import { store } from './store';
+
+export default {
+    props: {
+        socialPlatforms: {
+            type: Array,
+            default: [],
+        },
+    },
+    data() {
+        return {
+            errors: store.errors,
+            platforms: [
+                'Facebook', 'Instagram', 'Twitter', 'Linkedin'
+            ],
+        };
+    },
+    methods: {
+        handleChange({ target: { checked, value }}) {
+            if (checked) {
+                this.socialPlatforms.push(value);
+            } else {
+                this.socialPlatforms.splice(this.socialPlatforms.indexOf(value));
+            }
+        },
+    },
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <div class="mb-20">
+        <h5>Social Platforms</h5>
+        <div>
+            <span v-for="platform in platforms" :key="platform">
+                <input
+                    type="checkbox"
+                    :id="platform"
+                    name="platform"
+                    :value="platform"
+                    class="mr-10"
+                    :checked="socialPlatforms.indexOf(platform) !== -1"
+                    @change="handleChange"
+                />
+                <label class="mr-10" :for="platform">{{ platform }}</label>
+            </span>
+            <p v-if="errors.has('profile.socialPlatforms')" class="cl-red">{{ errors.first('profile.socialPlatforms') }}</p>
+        </div>
+    </div>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+### AddressesList
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import Address from './Address.vue';
+
+export default {
+    components: {
+        Address,
+    },
+    props: {
+        addresses: {
+            type: Array,
+            default: [],
+        },
+    },
+    methods: {
+        addAddress() {
+            this.addresses.push({
+                street: '',
+                city: '',
+                zipCode: '',
+            });
+        },
+
+        removeAddress() {
+            this.addresses.pop();
+        },
+    }
+}
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <div style="mb-20">
+        <div v-for="(address, index) in addresses" :key="index">
+            <Address :address="address" :index="index"/>
+        </div>
+        <button  v-if="addresses.length < 3" class="mr-20" type="button" @click="addAddress">Add Address</button>
+        <button v-if="addresses.length > 1" type="button" @click="removeAddress">Remove Address</button>
+    </div>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+In the example above, the **index** value was passed from the <code>AddressesList</code> component into the <code>Address</code> component.
+The **index** will be used to identify the appropriate error message associated with each address.
+
+### Address
+
+```mdx-code-block
+<Tabs>
+<TabItem value="javascript" label="JS" default>
+```
+
+```js
+import { store } from './store';
+
+export default {
+    props: {
+        index: Number,
+        address: {
+            type: Object,
+            default: {},
+        }
+    },
+    data() {
+        return {
+            errors: store.errors,
+        };
+    }
+
+};
+```
+
+```mdx-code-block
+</TabItem>
+<TabItem value="html" label="HTML">
+```
+
+```html
+<template>
+    <div>
+        <h5>Address {{ index + 1}}</h5>
+        <div class="mb-20">
+            <label class="mr-10" for="street.{{index}}">Street</label>
+            <input
+                id="street.{{index}}"
+                v-model="address.street"
+                type="text"
+                name="street.{{index}}"
+            />
+            <p class="cl-red" v-if="errors.has(`profile.addresses.${index}.street`)">
+                {{ errors.first(`profile.addresses.${index}.street`) }}
+            </p>
+        </div>
+
+        <div class="mb-20">
+            <label class="mr-10" for="city.{{index}}">City</label>
+            <input
+                id="city.{{index}}"
+                v-model="address.city"
+                type="text"
+                name="city.{{index}}"
+            />
+            <p class="cl-red" v-if="errors.has(`profile.addresses.${index}.city`)">
+                {{ errors.first(`profile.addresses.${index}.city`) }}
+            </p>
+        </div>
+
+        <div class="mb-20">
+            <label class="mr-10" for="zipCode.{{index}}">Zip Code</label>
+            <input
+                id="zipCode.{{index}}"
+                v-model="address.zipCode"
+                type="text"
+                name="zipCode.{{index}}"
+            />
+            <p class="cl-red" v-if="errors.has(`profile.addresses.${index}.zipCode`)">
+                {{ errors.first(`profile.addresses.${index}.zipCode`) }}
+            </p>
+        </div>
+    </div>
+</template>
+```
+
+```mdx-code-block
+</TabItem>
+</Tabs>
+```
+
+To be able to get the correct error message for the fields in the address component, we followed the same path
+of the <code>rules</code> object, and we replaced <code>*</code> by the the array index.
+
+```js title="Initial Rule"
+    profile: {
+        'addresses.*.street': 'required|string|min:5|max:255',
+    }
+```
+
+```js title="Error Message"
+    errors.first(`profile.addresses.${index}.street`);
+```
+
+## Full Example Code
+
+<iframe width="100%" height="400px" src="https://stackblitz.com/edit/vue-txwowq?ctl=1&embed=1&file=src/components/Form/index.vue"> </iframe>
