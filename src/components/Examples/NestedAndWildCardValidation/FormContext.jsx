@@ -1,6 +1,7 @@
 import React,{ createContext, useReducer, useState } from 'react';
 import { make } from 'simple-body-validator'; 
 import { deepSet, mergeDeep } from 'simple-body-validator/lib/utils/object';
+import ErrorBag from 'simple-body-validator/lib/validators/errorBag';
 
 
 
@@ -22,7 +23,6 @@ const formReducer = (state, action) => {
         case 'handle_change': 
             const { path, value } = action.payload;
             deepSet(updatedState, path, value);
-            console.log('Updated State: ', updatedState);
             return updatedState;
         default:
             return state;
@@ -35,7 +35,7 @@ const Provider = ({ children, initialData, rules, customMessages = {} }) => {
     
     const validator = make(initialData, rules, customMessages);
     const [ data, dispatch ] = useReducer(formReducer, initialData);
-    const [ errors, setErrors] = useState(validator.errors());
+    const [ errors, setErrors] = useState(new ErrorBag());
 
     const addAddress = event => {
         event.preventDefault();
