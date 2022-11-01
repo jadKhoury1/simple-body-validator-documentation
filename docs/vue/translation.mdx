@@ -22,22 +22,21 @@ three files, <code>en.js</code> for the English translations, <code>fr.js</code>
 Now we should add the corresponding entries for each of the files. You can find the full list of translation attributes [here](/error-messages/error-messages-list).
 
 ```js title="lang/fr.js" {
-    export default {
-        required: 'Le champ :attribute est obligatoire',
-        numeric: 'Le champ :attribute doit être un nombre.',
-        min: {
-            number: 'Le :attribute doit être au moins égal à :min.',
-            string: 'Le :attribute doit comporter au moins trois caractères'
-        },
-    }
+export default {
+    required: 'Le champ :attribute est obligatoire',
+    numeric: 'Le champ :attribute doit être un nombre.',
+    min: {
+        number: 'Le :attribute doit être au moins égal à :min.',
+        string: 'Le :attribute doit comporter au moins trois caractères'
+    },
 }
 ```
 
 
 ```js title="lang/en.js"
-    export default {
-        // We will leave the en.js file empty, and just rely in the default english messages provided by the library
-    }
+export default {
+    // We will leave the en.js file empty, and just rely in the default english messages provided by the library
+}
 ```
 
 :::info Default Messages
@@ -89,7 +88,7 @@ A full reference to the translation feature can be found [here](/error-messages/
 
 ## Form Translation Example
 
-Assuming that you already started with the example from the previous [section](/vue/vue-validation-quickstart).
+Assuming that you already started with the example from the previous [section](/vue/validation-quickstart).
 We will continue by adding a button to switch between the <code>English</code> and <code>French</code> languages.
 Now let's start by adding the <code>changeLanguage</code> method to our code.
 
