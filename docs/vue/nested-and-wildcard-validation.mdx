@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 4
 sidebar_label: Nested and Wildcard Validation
 title: Vue JS Nested and Wildcard Validation
 ---
@@ -9,7 +9,7 @@ import BrowserWindow from '@site/src/components/BrowserWindow';
 import NestedAndWildCardValidation from '@site/src/components/Examples/NestedAndWildCardValidation';
 
 
-In this section we will go through a in depth example on how to validate complex forms that contain nested objects and array of objects.
+In this section we will go through a in-depth example on how to validate complex forms that contain nested objects and array of objects.
 
 The form that we aim to validate looks like the following.
 
@@ -23,7 +23,7 @@ The form that we aim to validate looks like the following.
 To be able to proceed with the implementation the form needs to be divided into components. The image below shows the different components used
 for the example. Let's start by creating the <code>Form</code> directory inside of the <code>components</code> directory.
 
-![Example banner](/img/form-components.jpg)
+![Vue components](/img/vue-form-components.jpg)
 
 
 ### store.js
@@ -634,7 +634,7 @@ export default {
 ```
 
 In the example above, the **index** value was passed from the <code>AddressesList</code> component into the <code>Address</code> component.
-The **index** will be used to identify the appropriate error message associated with each address.
+The **index** will be used to identify the appropriate error messages associated with each address.
 
 ### Address
 
@@ -720,7 +720,7 @@ export default {
 ```
 
 To be able to get the correct error message for the fields in the address component, we followed the same path
-of the <code>rules</code> object, and we replaced <code>*</code> by the the array index.
+of the <code>rules</code> object, and we replaced <code>*</code> with the index of the array.
 
 ```js title="Initial Rule"
     profile: {
