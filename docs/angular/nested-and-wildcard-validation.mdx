@@ -343,7 +343,6 @@ import { ValidationErrorService } from '../../services/validationError.service';
 
 export class AccountComponent implements OnInit {
 
-  errors: ErrorBag = new ErrorBag();
   form: FormGroup = new FormGroup({});
 
   constructor(
@@ -353,7 +352,10 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.rootFormGroup.control;
-    this.errors = this.validationErrorService.getErrors();
+  }
+
+  get errors(): ErrorBag {
+    return this.validationErrorService.getErrors();
   }
 }
 ```
@@ -413,7 +415,6 @@ import { ValidationErrorService } from '../../services/validationError.service';
 
 export class ProfileComponent implements OnInit {
 
-  errors: ErrorBag = new ErrorBag();
   profile: FormGroup = new FormGroup({});
 
   constructor(
@@ -423,10 +424,13 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.profile = this.rootFormGroup.control.get('profile') as FormGroup;
-    this.errors = this.validationErrorService.getErrors();
   }
 
-  get socialPlatforms() {
+  get errors(): ErrorBag {
+    return this.validationErrorService.getErrors();
+  }
+
+  get socialPlatforms(): FormControl {
     return this.profile.get('socialPlatforms') as FormControl;
   }
 }
@@ -508,7 +512,6 @@ import { ValidationErrorService } from '../../services/validationError.service';
 export class GenderComponent implements OnInit {
 
   profile: FormGroup = new FormGroup({});
-  errors: ErrorBag = new ErrorBag();
   genderList: string[] = [
     'Female', 'Male', 'Other'
   ];
@@ -519,8 +522,11 @@ export class GenderComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
-    this.errors = this.validationErrorService.getErrors();
     this.profile = this.rootFormGroup.control;
+  }
+
+  get errors(): ErrorBag {
+    return this.validationErrorService.getErrors();
   }
 }
 ```
@@ -560,7 +566,7 @@ export class GenderComponent implements OnInit {
 ```
 
 ```js
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ErrorBag } from 'simple-body-validator';
 import { ValidationErrorService } from '../../services/validationError.service';
 
@@ -570,12 +576,11 @@ import { ValidationErrorService } from '../../services/validationError.service';
   styleUrls: ['./socialPlatform.component.css']
 })
 
-export class SocialPLatformComponent implements OnInit {
+export class SocialPLatformComponent {
 
   @Input() selectedPlatforms: string[] = [];
   @Output() onChangeEvent = new EventEmitter<string[]>();
 
-  errors: ErrorBag = new ErrorBag();
   platforms: string[] = [
     'Facebook', 'Instagram', 'Twitter', 'Linkedin'
   ];
@@ -584,8 +589,8 @@ export class SocialPLatformComponent implements OnInit {
     private validationErrorService: ValidationErrorService
   ) {}
 
-  ngOnInit(): void {
-    this.errors = this.validationErrorService.getErrors();
+  get errors(): ErrorBag {
+    return this.validationErrorService.getErrors();
   }
 
   handleChange(event: Event): void {
@@ -662,7 +667,6 @@ import { ValidationErrorService } from '../../services/validationError.service';
 })
 
 export class AddressesList implements OnInit {
-  errors: ErrorBag = new ErrorBag();
   addresses: FormArray = new FormArray([]);
 
   constructor(
@@ -672,7 +676,10 @@ export class AddressesList implements OnInit {
 
   ngOnInit(): void {
     this.addresses = this.rootFormGroup.control.get('addresses') as FormArray;
-    this.errors = this.validationErrorService.getErrors();
+  }
+
+  get errors(): ErrorBag {
+    return this.validationErrorService.getErrors();
   }
 
   addAddress() {
@@ -755,7 +762,6 @@ import { ValidationErrorService } from '../../services/validationError.service';
 export class Address implements OnInit {
     @Input() index;
 
-    errors: ErrorBag = new ErrorBag();
     address: FormGroup = new FormGroup({});
 
     constructor(
@@ -765,7 +771,10 @@ export class Address implements OnInit {
 
     ngOnInit(): void {
       this.address = this.rootFormGroup.control.get(`addresses.${this.index}`) as FormGroup;
-      this.errors = this.validationErrorService.getErrors();
+    }
+
+    get errors(): ErrorBag {
+      return this.validationErrorService.getErrors();
     }
 }
 ```
