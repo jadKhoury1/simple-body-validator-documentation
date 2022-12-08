@@ -88,13 +88,15 @@ export class AppComponent implements OnInit {
         movie: ['required', ruleIn(['star-wars', 'vanilla-sky', 'atomic-blonde'])]
     };
 
-    errors: ErrorBag = this.validator.errors();
-
     profileForm = new FormGroup({
         name: new FormControl(''),
         age: new FormControl(''),
         movie: new FormControl(''),
     });
+
+    get errors(): ErrorBag {
+        return this.validator.errors();
+    }
 
     ngOnInit(): void {
         this.validator.setData(this.profileForm.value).setRules(this.rules);

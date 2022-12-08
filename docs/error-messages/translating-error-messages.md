@@ -5,7 +5,7 @@ title: Translating Error Messages
 
 Simple Body Validator comes with a built-in translation feature that provides a convenient way to retrieve error messages in various languages, allowing you to easily support multiple languages for your data validation.
 
-## Translation Configuration.
+## Translation Configuration
 
 ### Translation Object
 

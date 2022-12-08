@@ -35,20 +35,15 @@ Go ahead and create a <code>store.js</code> file in the <code>Form</code> direct
 
 ```js title="store.js"
 
-import { reactive } from 'vue';
-import { make } from 'simple-body-validator';
+import { ref } from 'vue';
+import { ErrorBag } from 'simple-body-validator';
 
-const validator = make();
-const errors = validator.errors();
-
-export const store = reactive({
-    validator, errors
-});
+export const errors = ref(new ErrorBag);
 
 ```
 
 :::caution
-You are not bounded to vue <code>reactive</code> function for the state management, you can manage state the way it fits you the most.
+You are not bounded to vue <code>ref</code> function for the state management, you can manage state the way it fits you the most.
 :::
 
 ### index.vue
@@ -58,8 +53,8 @@ set the initial **data**, **rules**, and to pass them to the <code>validator</co
 Let's start with the imports.
 
 ```js
-    import { store } from './store';
-    import { Password, ruleIn } from 'simple-body-validator';
+    import { errors } from './store';
+    import { make, Password, ruleIn } from 'simple-body-validator';
 ```
 
 
@@ -68,7 +63,8 @@ Next, we will specify the initial **data** attributes, along wih their respectiv
 ```js
     data() {
         return {
-            validator: store.validator,
+            validator: make(),
+            errors,
             data: {
                 email: '',
                 password: '',
@@ -164,8 +160,8 @@ import TabItem from '@theme/TabItem';
 ```
 
 ```js
-import { Password, ruleIn } from 'simple-body-validator';
-import { store } from './store';
+import { make, Password, ruleIn, ErrorBag } from 'simple-body-validator';
+import { errors } from './store';
 import Account from './Account.vue';
 import Profile from './Profile.vue';
 
@@ -176,7 +172,8 @@ export default {
     },
     data() {
         return {
-            validator: store.validator,
+            validator: make(),
+            errors,
             data: {
                 email: '',
                 password: '',
@@ -228,9 +225,9 @@ export default {
     },
     methods: {
         validateForm(event) {
-            if (! this.validator.setData(this.data).validate()) {
-                event.preventDefault();
-            }
+            event.preventDefault();
+            this.validator.setData(this.data).validate();
+            this.errors = this.validator.errors();
         },
     },
 }
@@ -303,7 +300,7 @@ The <code>index.vue</code> component will not work directly since we didn't crea
 ```
 
 ```js
-import { store } from './store';
+import { errors } from './store';
 
 export default {
     props: {
@@ -314,7 +311,7 @@ export default {
     },
     data() {
         return {
-            errors: store.errors
+            errors
         }
     },
 };
@@ -367,7 +364,7 @@ export default {
 ```
 
 ```js
-import { store } from './store';
+import { errors } from './store';
 import SocialPlatform from './SocialPlatform.vue';
 import Gender from './Gender.vue';
 import AddressesList from './AddressesList.vue';
@@ -387,7 +384,7 @@ export default {
     },
     data() {
         return {
-            errors: store.errors
+            errors
         };
     },
 }
@@ -459,14 +456,14 @@ we followed the same path specified in the **rules** object.
 ```
 
 ```js
-import { store } from './store';
+import { errors } from './store';
 export default {
      props: {
         selectedGender: String,
     },
     data() {
         return {
-            errors: store.errors,
+            errors,
             genderList: [
                 'Female', 'Male', 'Other',
             ],
@@ -513,7 +510,7 @@ export default {
 ```
 
 ```js
-import { store } from './store';
+import { errors } from './store';
 
 export default {
     props: {
@@ -524,7 +521,7 @@ export default {
     },
     data() {
         return {
-            errors: store.errors,
+            errors,
             platforms: [
                 'Facebook', 'Instagram', 'Twitter', 'Linkedin'
             ],
@@ -583,6 +580,7 @@ export default {
 ```
 
 ```js
+import { errors } from './store';
 import Address from './Address.vue';
 
 export default {
@@ -595,6 +593,11 @@ export default {
             default: [],
         },
     },
+    data() {
+        return {
+            errors
+        };
+    },
     methods: {
         addAddress() {
             this.addresses.push({
@@ -605,6 +608,8 @@ export default {
         },
 
         removeAddress() {
+            // Remove the errors related to the address fields
+            this.errors.forgetAll(`profile.addresses.${this.addresses.length - 1}`);
             this.addresses.pop();
         },
     }
@@ -644,7 +649,7 @@ The **index** will be used to identify the appropriate error messages associated
 ```
 
 ```js
-import { store } from './store';
+import { errors } from './store';
 
 export default {
     props: {
@@ -656,7 +661,7 @@ export default {
     },
     data() {
         return {
-            errors: store.errors,
+            errors
         };
     }
 
