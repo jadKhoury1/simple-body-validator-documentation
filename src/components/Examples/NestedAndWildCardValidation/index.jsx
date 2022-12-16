@@ -12,7 +12,7 @@ export default () => {
         profile: {
             firstName: '',
             lastName: '',
-            gebder: '',
+            gender: '',
             socialPlatforms: [],
             addresses: [
                 {
