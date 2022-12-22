@@ -1,12 +1,12 @@
 import React,{ createContext, useReducer, useState } from 'react';
-import { make } from 'simple-body-validator'; 
-import { deepSet, mergeDeep } from 'simple-body-validator/lib/utils/object';
-import ErrorBag from 'simple-body-validator/lib/validators/errorBag';
+import { make, ErrorBag} from 'simple-body-validator'; 
+import clonedeep from 'lodash.clonedeep';
+import set from 'lodash.set';
 
 
 
 const formReducer = (state, action) => {
-    let updatedState = mergeDeep(state);
+    let updatedState = clonedeep(state);
     switch(action.type) {
         case 'add_platform':
             updatedState.profile.socialPlatforms.push(action.payload);
@@ -22,7 +22,7 @@ const formReducer = (state, action) => {
             return updatedState;
         case 'handle_change': 
             const { path, value } = action.payload;
-            deepSet(updatedState, path, value);
+            set(updatedState, path, value);
             return updatedState;
         default:
             return state;
@@ -48,6 +48,8 @@ const Provider = ({ children, initialData, rules, customMessages = {} }) => {
     
     const removeAddress =  event => {
         event.preventDefault();
+        // Remove the errors related to the address fields
+        errors.forgetAll(`profile.addresses.${data.profile.addresses.length - 1}`);
         dispatch({ type: 'remove_address' });
     };
     
