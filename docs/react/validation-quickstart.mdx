@@ -1,0 +1,193 @@
+---
+sidebar_position: 1
+sidebar_label: Validation Quickstart
+title: React Form Validation
+---
+
+import BrowserWindow from '@site/src/components/BrowserWindow';
+import BasicExample from '@site/src/components/Examples/BasicExample';
+
+In this tutorial we will learn how to validate fields in a ract form using the **simple-body-validator** validation
+mechanism. We will start with a basic form, and run all the needed validations.
+
+
+## Installation
+
+```bash
+npm i simple-body-validator
+```
+
+## Basic Example
+
+The purpose of this example is to learn how to implement the validation for the form below in the simplest way possible using **simple-body-validator**
+
+<BrowserWindow minHeight="300px" maxHeight="500px">
+    <BasicExample />
+</BrowserWindow>
+
+In your <code>style.css</code> file add the following.
+
+```css
+.mr-10 {
+    margin-right: 10px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.cl-red {
+    color: red;
+}
+
+```
+
+Let's start by importing the required dependencies for our <code>App</code> component.
+
+```js
+import React, { useState } from 'react';
+import { make, ruleIn } from 'simple-body-validator';
+import './style.css';
+```
+
+Now under the imports we need to define the inital **data** and **rules**, alongside the **validator**.
+
+```js
+// Form initial Data
+const initialData = {
+    name: '',
+    age: '',
+    movie: '',
+};
+
+// Set the rules to be used for the form validation
+const rules = {
+    name: ['required', 'string', 'min:3', 'max:255'],
+    age: ['required', 'integer', 'min:18', 'max:64'],
+    movie: ['required', ruleIn(['star-wars', 'vanilla-sky', 'atomic-blonde'])],
+};
+
+// Initiate a new validator instance
+const validator = make(initialData, rules);
+```
+
+The next step is to write the component code.
+
+```js
+export default function App() {
+  // Set state with initial data
+  const [data, setData] = useState(initialData);
+  // Set intial error instance
+  const [errors, setErrors] = useState(validator.errors());
+
+  const { name, age, movie } = data;
+
+  // Update form data
+  const handleInputChange = ({ target: { name, value } }) => {
+    setData({
+      ...data,
+      [name]: value
+    });  
+  };
+
+  const handleSubmit = (event) => {
+    // Pass the submitted form data to the validator instance and run the validation
+    if (!validator.setData(data).validate()) {
+        event.preventDefault();
+        // Set the new error instance
+        setErrors(validator.errors());
+    }
+  };
+});
+```
+
+The last step is to return the JSX of our component.
+
+```html
+return (
+    <form onSubmit={handleSubmit}>
+      <div className="mb-20">
+        <label className="mr-10" htmlFor="name">
+          Name
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          value={name}
+          onChange={handleInputChange}
+        />
+        {errors.has('name') ? (
+          <p className="cl-red">{errors.first('name')}</p>
+        ) : null}
+      </div>
+
+      <div className="mb-20">
+        <label className="mr-10" htmlFor="name">
+          Age
+        </label>
+        <input
+          id="age"
+          name="age"
+          type="number"
+          value={age}
+          onChange={handleInputChange}
+        />
+        {errors.has('age') ? (
+          <p className="cl-red">{errors.first('age')}</p>
+        ) : null}
+      </div>
+
+      <div className="mb-20">
+        <label className="mr-10" htmlFor="movie">
+          Favorite Movie
+        </label>
+        <select
+          id="movie"
+          name="movie"
+          value={movie}
+          onChange={handleInputChange}
+        >
+          <option value="">Select Movie</option>
+          <option value="star-wars">Star Wars</option>
+          <option value="vanilla-sky">Vanilla Sky</option>
+          <option value="atomic-blonde">Atomic Blonde</option>
+        </select>
+        {errors.has('movie') ? (
+          <p className="cl-red">{errors.first('movie')}</p>
+        ) : null}
+      </div>
+
+      <input type="submit" value="submit" />
+    </form>
+);
+```
+
+And that's it, when the <code>submit</code> button is clicked, error messages will appear under the related fields. Try to change
+the values of the fields and click submit again, the error messages will be updated accordingly.
+
+## Form Instant Validation Example
+
+In order to run the form validation instantly while the user is updating the value of a field, the <code>handleInputChange</code> method needs to be updated.
+
+```js
+const handleInputChange = ({ target: { name, value } }) => {
+    setData({
+        ...data,
+        [name]: value
+    });
+
+    validator.validate(name, value);
+    setErrors(validator.errors());
+};
+```
+
+On each input change the <code>validate</code> method will run the validation against the new value of the field, and generate a new **error** instance.
+
+And that's it, the fields are now being validated dynamically. You can see the whole code and results below.
+
+<p>
+    <iframe width="100%" height="400px" src="https://stackblitz.com/edit/react-ufd8op?ctl=1&embed=1&file=src/App.js"> </iframe>
+</p>
+
+To read more about handling error messages in **simple-body-validator** click [here](/error-messages/working-with-error-messages).

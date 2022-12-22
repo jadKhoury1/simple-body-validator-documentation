@@ -33,4 +33,4 @@ To understand the example you should have already done the [Angular translation 
 The code below showcases the full telephone rule registration and usage.
 
 
-<iframe width="100%" height="400px" src="https://stackblitz.com/edit/angular-ivy-jmkay8?ctl=1&embed=1&file=src/app/app.component.ts"> </iframe>
+<iframe width="100%" height="400px" src="https://stackblitz.com/edit/angular-ivy-jmkay8?ctl=1&embed=1&file=src/main.ts"> </iframe>

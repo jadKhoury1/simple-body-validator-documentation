@@ -48,6 +48,8 @@ const Provider = ({ children, initialData, rules, customMessages = {} }) => {
     
     const removeAddress =  event => {
         event.preventDefault();
+        // Remove the errors related to the address fields
+        errors.forgetAll(`profile.addresses.${data.profile.addresses.length - 1}`);
         dispatch({ type: 'remove_address' });
     };
     
