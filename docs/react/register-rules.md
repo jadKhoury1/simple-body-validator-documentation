@@ -27,10 +27,10 @@ to specify the error message linked to the new <code>telephone</code> rule. In t
 add the <code>telephone</code> related error message to the <code>en.js</code> file.
 
 ```js title="en.js"
-    telephone: 'The :attribute phone number is not in the format XXX-XXX-XXXX.',
+telephone: 'The :attribute phone number is not in the format XXX-XXX-XXXX.',
 ```
 
-To understand the example you should have already done the [React translation example](/react/translation). 
+To understand the example you should have already done the [react translation example](/react/translation). 
 The code below showcases the full telephone rule registration and usage.
 
 <iframe width="100%" height="400px" src="https://stackblitz.com/edit/react-td98us?ctl=1&embed=1&file=src/index.js"> </iframe>

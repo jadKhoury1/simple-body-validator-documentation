@@ -88,18 +88,28 @@ const rules = {
   profile: {
     firstName: 'required|string|min:3|max:30',
     lastName: 'required|string|min:3|max:30',
+    // Gender must match one of the predefined values
     gender: [
         'required', ruleIn(['Female', 'Male', 'Other'])
     ],
+    // The social platform must an array of min 2 items, max 3 items,
+    // and each item must match one of the predefined values
     socialPlatforms: 'bail|array|min:2|max:4',
     'socialPlatforms.*': ruleIn(['Facebook', 'Instagram', 'Linkedin', 'Twitter']),
+    // The address must be an array with at least one item
     addresses: 'required|array|min:1',
+    // Each item in the addresses array must be an object,
     'addresses.*': 'object',
+
+    // validate the attributes for each address object
+
     'addresses.*.street': 'required|string|min:5|max:255',
+    // The city is required when zip code doesn't exist
     'addresses.*.city': [
       'required_without:profile.addresses.*.zipCode',
       'string', 'min:5', 'max:255'
     ],
+    // The zip Code is required when city doesn't exist
     'addresses.*.zipCode': [
       'required_without:profile.addresses.*.city', 'digits:5'
     ],
@@ -296,7 +306,7 @@ export default () => {
 ```
 
 :::warning
-The <code>Form.js</code> component will work directly because we didn't create the <code>Account</code> and <code>Profile</code> components yet.
+The <code>Form.js</code> component will not work directly because we didn't create the <code>Account</code> and <code>Profile</code> components yet.
 :::
 
 ### Account.js
