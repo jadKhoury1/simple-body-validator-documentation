@@ -7,9 +7,7 @@ Simple Body Validator comes with a built-in translation feature that provides a 
 
 ## Translation Configuration
 
-### Translation Object
-
-The first way to add error message translations is to pass an object to the <code>setTranslationObject</code> method.
+To add error messages translations you must use the <code>setTranslationObject</code> method.
 
 ```js
     import { setTranslationObject } from 'simple-body-validator';
@@ -79,6 +77,7 @@ Meanwhile in the <code>app.js</code> you can pass the translation object to the 
 
 And that's it, this is how you add your translations
 
+<!--
 ### Translation Path
 
 Another way to add translations is to use the <code>setTranslationPath</code> method, let's start with a simple example.
@@ -129,6 +128,8 @@ And <code>app.js</code> is the entry point of your project. To set the translati
 :::caution
 Setting the translation path should always be on top, before setting the default lang or running any validation, so that you don't face any translation problems.
 :::
+
+-->
 
 
 ### Setting The Default Language 
@@ -182,7 +183,7 @@ Besides the default language, you can explicitly specify the lang to be used eac
     const validator = make(data, rules).setLang(lang);
 ```
 :::tip
-In case the message was not found in the specified language file, the validator will utilize to the fallback language. In case the message was not found in the fallback language, the final fallback will be the English language.
+If the validator cannot find the error message in the specified language file, it will use the fallback language. If the error message is not found in the fallback language either, the validator will use English.
 :::
 
 ## Specifying Custom Messages
