@@ -26,6 +26,7 @@ const sidebars = {
         'intro',
         'installation',
         'validation-quickstart',
+        'asynchronous-validation'
       ]
     },
     {
