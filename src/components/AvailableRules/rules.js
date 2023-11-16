@@ -20,6 +20,10 @@ export default [
         name: 'Alpha'
     },
     {
+        key: 'alpha_num',
+        name: 'Alpha Num'
+    },
+    {
         key: 'alpha_dash',
         name: 'Alpha Dash'
     },
