@@ -32,6 +32,10 @@ export default [
         name: 'Array'
     },
     {
+        key: 'array_unique',
+        name: 'Array Unique'
+    },
+    {
         key: 'bail',
         name: 'Bail'
     },
