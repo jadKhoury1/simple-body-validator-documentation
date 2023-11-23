@@ -144,3 +144,34 @@ We can get the error types, the same way we did it for the <code>get</code> meth
         ]
     }
 ```
+### Clear Errors
+
+To clear form errors, use the <code>clearErrors()</code> method on the <code>validator</code> instance.
+
+```js
+// clear all errors
+validator.clearErrors();
+
+// Clear errors for specific fields...
+validator.clearErrors('field', 'anotherfield');
+```
+
+### Set Errors
+
+If you would like to set errors manually. Specially if you are using the library on the client-side and would like to 
+set error messages received from the server-side, you can set your own errors use the <code>setErrors()</code> method
+
+```js
+// Set an error for the attributes
+validator.setErrors({
+    name: 'name is  not valid',
+    email: 'email is not valid',
+});
+
+// Set multiple errors for the attributes
+validator.setErrors({
+    name: ['name is  not valid', 'name should have at least 3 characters'],
+    email: ['email is not valid', 'email should be a string'],
+});
+
+```
