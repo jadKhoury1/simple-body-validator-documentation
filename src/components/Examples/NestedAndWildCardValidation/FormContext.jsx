@@ -30,10 +30,13 @@ const formReducer = (state, action) => {
 };
 
 const Context = createContext();
+const validator = make();
 
 const Provider = ({ children, initialData, rules, customMessages = {} }) => {
-    
-    const validator = make(initialData, rules, customMessages);
+    validator.setData(initialData)
+        .setRules(rules)
+        .setCustomMessages(customMessages);
+
     const [ data, dispatch ] = useReducer(formReducer, initialData);
     const [ errors, setErrors] = useState(new ErrorBag());
 
@@ -49,7 +52,12 @@ const Provider = ({ children, initialData, rules, customMessages = {} }) => {
     const removeAddress =  event => {
         event.preventDefault();
         // Remove the errors related to the address fields
-        errors.forgetAll(`profile.addresses.${data.profile.addresses.length - 1}`);
+        const index = data.profile.addresses.length - 1;
+        setErrors(validator.clearErrors([
+            `profile.addresses.${index}.city`,
+            `profile.addresses.${index}.street`,
+            `profile.addresses.${index}.zipCode`
+        ]));
         dispatch({ type: 'remove_address' });
     };
     
