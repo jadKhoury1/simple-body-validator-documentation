@@ -146,20 +146,28 @@ We can get the error types, the same way we did it for the <code>get</code> meth
 ```
 ### Clear Errors
 
-To clear form errors, use the <code>clearErrors()</code> method on the <code>validator</code> instance.
+To clear form errors, use the <code>clearErrors()</code> method on the <code>validator</code> instance. Note that the <code>clearErrors()</code> will return a new instance of the error.
 
 ```js
 // clear all errors
 validator.clearErrors();
 
 // Clear errors for specific fields...
-validator.clearErrors('field', 'anotherfield');
+validator.clearErrors(['field', 'anotherfield']);
 ```
+Alternatively you can use the <code>clear()</code> method on the <code>errors()</code> method directly. Unlike the <code>clearErrors()</code> the <code>clear()</code> method will not return a new error instance.
 
+```js
+// clear all errors
+validator.errors().clear();
+
+// Clear errors for specific fields...
+validator.errors().clear(['field', 'anotherfield']);
+```
 ### Set Errors
 
 If you would like to set errors manually. Specially if you are using the library on the client-side and would like to 
-set error messages received from the server-side, you can set your own errors use the <code>setErrors()</code> method
+set error messages received from the server-side, you can set your own errors with the <code>setErrors()</code> method.
 
 ```js
 // Set an error for the attributes
@@ -174,4 +182,47 @@ validator.setErrors({
     email: ['email is not valid', 'email should be a string'],
 });
 
+```
+
+### Append Errors
+
+If you would like to append errors to the existing ones, you can use the <code>appendErrors()</code> method.
+
+```js
+// Apped an error for the attributes
+validator.appendErrors({
+    name: 'name is  not valid',
+    email: 'email is not valid',
+});
+
+// Append multiple errors for the attributes
+validator.appendErrors({
+    name: ['name is  not valid', 'name should have at least 3 characters'],
+    email: ['email is not valid', 'email should be a string'],
+});
+
+```
+
+:::caution Difference Between Set and Append Errors
+The <code>setErrors</code> will add the errors from scratch and delete the old ones while the <code>append</code> will not remove the old ones.
+:::
+
+### Clone
+
+The <code>clone()</code> method will just create a new instance of the error.
+
+```js
+// clone error instance
+const newError = validator.errors().clone();
+```
+
+### Keys
+
+The <code>keys()</code> will return a array with the attributes that failed the validation
+
+```js
+// let's say name an email failed the validation
+const keys = validator.errors().keys();
+
+// The value of keys will be ['name', 'email']
 ```

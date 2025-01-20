@@ -693,7 +693,11 @@ export class AddressesList implements OnInit {
   removeAddress() {
     const index = this.addresses.length - 1;
     // Remove the errors related to the address fields
-    this.errors.forgetAll(`profile.addresses.${index}`);
+    this.errors.clear([
+        `profile.addresses.${index}.city`,
+        `profile.addresses.${index}.street`,
+        `profile.addresses.${index}.zipCode`
+    ]);
     this.addresses.removeAt(index);
   }
 

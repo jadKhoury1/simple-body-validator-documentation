@@ -609,7 +609,12 @@ export default {
 
         removeAddress() {
             // Remove the errors related to the address fields
-            this.errors.forgetAll(`profile.addresses.${this.addresses.length - 1}`);
+            const index = this.addresses.length - 1;
+            this.errors.clear([
+                `profile.addresses.${index}.city`,
+                `profile.addresses.${index}.street`,
+                `profile.addresses.${index}.zipCode`
+            ]);
             this.addresses.pop();
         },
     }
